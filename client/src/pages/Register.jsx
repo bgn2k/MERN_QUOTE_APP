@@ -68,9 +68,7 @@ export const Register = () => {
         <Button value="register" variant="contained" type="submit" fullWidth>
           Register
         </Button>
-      </Box>
-      <br />
-      <Button
+        <Button
         variant="outlined"
         type="submit"
         fullWidth
@@ -78,6 +76,7 @@ export const Register = () => {
       >
         Login
       </Button>
+      </Box>
     </>
   );
 };

@@ -77,9 +77,7 @@ export const Login = () => {
           <Button value="login" variant="contained" type="submit" fullWidth>
             Login
           </Button>
-        </Box>
-        <br />
-        <Button
+          <Button
           variant="outlined"
           type="submit"
           fullWidth
@@ -87,6 +85,7 @@ export const Login = () => {
         >
           Register
         </Button>
+        </Box>
       </>
     </>
   );
