@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-export const User = () => {
+export const Dashboard = () => {
   const location = useLocation();
   const { userName } = location.state || {};
   const navigate = useNavigate();

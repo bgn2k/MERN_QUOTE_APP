@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { User } from "./User";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +27,7 @@ export const Login = () => {
     if (token) {
       console.log("User Logged Successfully");
       setUserName(data.name);
-      navigate("/user", { state: { userName: data.name } });
+      navigate("/dashboard", { state: { userName: data.name } });
     } else {
       console.log("Unauthorized User");
       alert("Login Failed: Invalid Credentials");
@@ -38,7 +37,6 @@ export const Login = () => {
     console.log(data);
   }
   function handleRegister() {
-    const navigate = new useNavigate();
     navigate("/register");
   }
 
@@ -81,8 +79,13 @@ export const Login = () => {
           </Button>
         </Box>
         <br />
-        <Button variant="outlined" type="submit" fullWidth>
-          <Link to="/register">Register</Link>
+        <Button
+          variant="outlined"
+          type="submit"
+          fullWidth
+          onClick={handleRegister}
+        >
+          Register
         </Button>
       </>
     </>
