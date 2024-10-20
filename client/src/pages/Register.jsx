@@ -24,6 +24,7 @@ export const Register = () => {
     );
 
     const data = response.data;
+    navigate('/login')
     console.log(data);
   }
   function handleLogin() {

@@ -10,6 +10,7 @@ function handleLogin() {
 function handleRegister() {
     navigate('/register')
 }
+console.log("App Started")
   return (
     <>
       <ButtonGroup variant="contained" aria-label="Basic button group">
