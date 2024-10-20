@@ -27,7 +27,7 @@ export const Login = () => {
     if (token) {
       console.log("User Logged Successfully");
       setUserName(data.name);
-      navigate("/dashboard", { state: { userName: data.name } });
+      navigate("/dashboard", { state: { userName: data.name, token : data.token } });
     } else {
       console.log("Unauthorized User");
       alert("Login Failed: Invalid Credentials");
