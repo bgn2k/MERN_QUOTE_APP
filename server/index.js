@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require('bcrypt')
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -21,10 +22,12 @@ try {
  */
 app.post("/api/register", async (req, res) => {
   try {
+    const pswd = req.body.password
+    const hashedPassword = await bcrypt.hash(pswd, 12)
     await User.create({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
+      password: hashedPassword,
     });
     res.json({ status: "ok", message: "User successfully registered" });
   } catch (error) {
@@ -35,11 +38,14 @@ app.post("/api/register", async (req, res) => {
  * Route to login a given user
  */
 app.post("/api/login", async (req, res) => {
+  let isValid = false
   const user = await User.findOne({
     email: req.body.email,
-    password: req.body.password,
   });
-  if (user) {
+  if(user){
+    isValid = await bcrypt.compare(req.body.password, user.password)
+  }
+  if (user && isValid) {
     const token = jwt.sign({ name: user.name, email: user.email }, "secret123");
     res.json({
       status: "ok",
@@ -48,7 +54,7 @@ app.post("/api/login", async (req, res) => {
       message: "User Found",
     });
   } else {
-    res.json({ status: "error", message: "User Not Found" });
+    res.json({ status: "error", message: "Incorrect Credentials" });
   }
 });
 /**
