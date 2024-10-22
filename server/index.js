@@ -74,7 +74,6 @@ app.get("/api/quote", async (req, res) => {
         .then((res) => {
           return res.data;
         });
-      console.log(quoteArr[1]);
       return res.json({ status: "OK", data: quoteArr });
     }
   } catch (error) {
