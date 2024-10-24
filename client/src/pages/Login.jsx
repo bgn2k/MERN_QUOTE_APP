@@ -1,50 +1,71 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Box, Typography, TextField, Button } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Box, Typography, TextField, Button, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+
   async function loginUser(e) {
     e.preventDefault();
-    const response = await axios.post(
-      "http://localhost:4000/api/login",
-      {
-        email,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/login",
+        { email, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      const data = response.data;
+      const token = data.token;
 
-    const data = response.data;
-    const token = response.data.token;
-    if (token) {
-      console.log("User Logged Successfully");
-      setUserName(data.name);
-      navigate("/dashboard", { state: { userName: data.name } });
-    } else {
-      console.log("Unauthorized User");
-      alert("Login Failed: Invalid Credentials");
-      setEmail("");
-      setPassword("");
+      if (token) {
+        setUserName(data.name);
+        navigate("/dashboard", { state: { userName: data.name, token: data.token } });
+      } else {
+        alert("Login Failed: Invalid Credentials");
+        setEmail("");
+        setPassword("");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Login failed: Please check your credentials and try again.");
     }
-    console.log(data);
   }
+
   function handleRegister() {
     navigate("/register");
   }
 
   return (
-    <>
-      <>
-        <Typography variant="h1" component="h2" gutterBottom>
-          Login
+    <Box
+      sx={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundImage: `url('https://source.unsplash.com/1600x900/?login')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <Paper
+        elevation={6}
+        sx={{
+          padding: "40px",
+          borderRadius: "15px",
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          maxWidth: "400px",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h4" color="primary" gutterBottom>
+          Welcome Back
+        </Typography>
+        <Typography variant="body1" paragraph>
+          Please log in to access your dashboard.
         </Typography>
         <Box
           component="form"
@@ -53,7 +74,7 @@ export const Login = () => {
             display: "flex",
             flexDirection: "column",
             gap: 2,
-            maxWidth: 400,
+            marginBottom: 2,
           }}
         >
           <TextField
@@ -74,19 +95,25 @@ export const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
           />
-          <Button value="login" variant="contained" type="submit" fullWidth>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+            sx={{ padding: "10px 0", fontSize: "16px" }}
+          >
             Login
           </Button>
-          <Button
+        </Box>
+        <Button
           variant="outlined"
-          type="submit"
           fullWidth
           onClick={handleRegister}
+          sx={{ padding: "10px 0", fontSize: "16px" }}
         >
           Register
         </Button>
-        </Box>
-      </>
-    </>
+      </Paper>
+    </Box>
   );
 };
