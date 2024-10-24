@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bcrypt = require('bcrypt')
 const app = express();
@@ -9,9 +10,7 @@ app.use(cors());
 app.use(express.json());
 const axios = require("axios");
 try {
-  mongoose.connect(
-    "mongodb+srv://bgnarendra:1234@learnnodejs.yxl7k.mongodb.net/Authentication?retryWrites=true&w=majority&appName=learnNodeJS"
-  );
+  mongoose.connect(process.env.MONGODB_URL);
   console.log("Mongo DB connected");
 } catch (error) {
   console.log("Failed To Connect Mongo DB");
@@ -78,6 +77,6 @@ app.get("/api/quote", async (req, res) => {
     res.json({ status: "error", message: "Invalid Token", error : error.message });
   }
 });
-app.listen(4000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server started at 4000");
 });
