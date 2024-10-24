@@ -21,16 +21,13 @@ export const Login = () => {
       const token = data.token;
 
       if (token) {
-        console.log("User Logged Successfully");
         setUserName(data.name);
         navigate("/dashboard", { state: { userName: data.name, token: data.token } });
       } else {
-        console.log("Unauthorized User");
         alert("Login Failed: Invalid Credentials");
         setEmail("");
         setPassword("");
       }
-      console.log(data);
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed: Please check your credentials and try again.");

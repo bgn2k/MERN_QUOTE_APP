@@ -28,7 +28,6 @@ export const Dashboard = () => {
   }, []);
 
   async function populateQuote(token) {
-    console.log("TOKEN IN DASHBOARD: ", token);
     try {
       const headers = { "access-token": token };
       const response = await axios.get("http://localhost:4000/api/quote", {
@@ -38,11 +37,9 @@ export const Dashboard = () => {
       if (!data) {
         setQuoteArr(quotesFile);
       } else {
-        console.log(data);
         setQuoteArr(data.data);
       }
     } catch (error) {
-      console.error("Error at populateQuote()", error);
       setError("Failed to fetch quotes. Please try again later.");
     } finally {
       setLoading(false); // Stop loading once the API call finishes

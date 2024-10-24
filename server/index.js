@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken");
 app.use(cors());
 app.use(express.json());
 const axios = require("axios");
-const fs = require("fs");
 try {
   mongoose.connect(
     "mongodb+srv://bgnarendra:1234@learnnodejs.yxl7k.mongodb.net/Authentication?retryWrites=true&w=majority&appName=learnNodeJS"
@@ -62,7 +61,6 @@ app.post("/api/login", async (req, res) => {
  */
 app.get("/api/quote", async (req, res) => {
   const token = req.headers["access-token"];
-  const filePath = "quotes.json";
 
   try {
     const decodedToken = jwt.verify(token, "secret123");

@@ -18,10 +18,8 @@ export const Register = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       const data = response.data;
-      console.log(data);
       navigate('/login');
     } catch (error) {
-      console.error("Registration error:", error);
       alert("Registration failed. Please try again.");
     }
   }

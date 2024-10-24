@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Box, Typography, Paper } from "@mui/material";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   let navigate = useNavigate();
@@ -35,7 +35,7 @@ export const Home = () => {
         }}
       >
         <Typography variant="h4" gutterBottom color="primary">
-          Welcome to Our Platform
+          Welcome User
         </Typography>
         <Typography variant="body1" paragraph>
           Please log in or register to continue
