@@ -31,7 +31,7 @@ export const Dashboard = () => {
     try {
       const baseUrl = import.meta.env.VITE_BASEURL
       const headers = { "access-token": token };
-      const response = await axios.get(`${baseUrl}/api/quote`, {
+      const response = await axios.get(`${baseUrl}api/quote`, {
         headers: headers,
       });
       const data = response.data;

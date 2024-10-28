@@ -14,7 +14,7 @@ export const Register = () => {
     try {
       const baseUrl = import.meta.env.VITE_BASEURL
       const response = await axios.post(
-        `${baseUrl}/api/register`,
+        `${baseUrl}api/register`,
         { name, email, password },
         { headers: { "Content-Type": "application/json" } }
       );
