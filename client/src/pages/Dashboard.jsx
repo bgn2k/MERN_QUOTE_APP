@@ -29,8 +29,9 @@ export const Dashboard = () => {
 
   async function populateQuote(token) {
     try {
+      const baseUrl = import.meta.env.VITE_BASEURL
       const headers = { "access-token": token };
-      const response = await axios.get("http://localhost:4000/api/quote", {
+      const response = await axios.get(`${baseUrl}/api/quote`, {
         headers: headers,
       });
       const data = response.data;

@@ -12,8 +12,9 @@ export const Register = () => {
   async function registerUser(e) {
     e.preventDefault();
     try {
+      const baseUrl = import.meta.env.VITE_BASEURL
       const response = await axios.post(
-        "http://localhost:4000/api/register",
+        `${baseUrl}/api/register`,
         { name, email, password },
         { headers: { "Content-Type": "application/json" } }
       );

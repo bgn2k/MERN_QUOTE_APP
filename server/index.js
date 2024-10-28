@@ -1,4 +1,7 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+// Load environment variables from the .env file
+dotenv.config();
 const express = require("express");
 const bcrypt = require('bcrypt')
 const app = express();
