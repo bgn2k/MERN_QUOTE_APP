@@ -160,19 +160,19 @@ const AboutMe = () => {
               </Typography>
               <List sx={{ pl: 2 }}>
                 <ListItem disableGutters>
-                  <ListItemText primary="ReactJS, JavaScript, HTML, CSS" />
+                  <ListItemText primary="JavaScript, HTML, CSS, JAVA" />
                 </ListItem>
                 <ListItem disableGutters>
-                  <ListItemText primary="Material-UI, Styled Components, Bootstrap" />
-                </ListItem>
-                <ListItem disableGutters>
-                  <ListItemText primary="NodeJS, Express, GraphQL, Azure Service Bus, Azure Functions" />
+                  <ListItemText primary="ReactJS, NodeJS, Express, GraphQL, Azure Service Bus, Azure Functions, SpringBoot" />
                 </ListItem>
                 <ListItem disableGutters>
                   <ListItemText primary="MongoDB, SQL" />
                 </ListItem>
                 <ListItem disableGutters>
-                  <ListItemText primary="Git, Agile Development, Responsive Web Design, UI/UX" />
+                  <ListItemText primary="Material-UI, Styled Components, Bootstrap" />
+                </ListItem>
+                <ListItem disableGutters>
+                  <ListItemText primary="Git, Agile Development, Responsive Web Design, UI/UX, Data Structures & Algorithms" />
                 </ListItem>
               </List>
             </Grid>
