@@ -13,6 +13,10 @@ export const Home = () => {
     navigate("/register");
   }
 
+  function routeToAboutMe(){
+    navigate('/about-me')
+  }
+
   return (
     <Box
       sx={{
@@ -58,6 +62,16 @@ export const Home = () => {
             }}
           >
             Register
+          </Button>
+          <Button
+            onClick={handleRegister}
+            sx={{
+              backgroundColor: "#1976d2",
+              "&:hover": { backgroundColor: "#115293" },
+            }}
+            onClick = {routeToAboutMe}
+          >
+            About Me
           </Button>
         </ButtonGroup>
       </Paper>
