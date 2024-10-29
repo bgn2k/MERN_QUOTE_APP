@@ -64,7 +64,7 @@ export const Login = () => {
         }}
       >
         <Typography variant="h4" color="primary" gutterBottom>
-          Welcome Back
+          Hi! How you doing?
         </Typography>
         <Typography variant="body1" paragraph>
           Please log in to access your dashboard.

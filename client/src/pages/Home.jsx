@@ -39,11 +39,11 @@ export const Home = () => {
         }}
       >
         <Typography variant="h4" gutterBottom color="primary">
-          Welcome User
+          Welcome
         </Typography>
-        <Typography variant="body1" paragraph>
-          Please log in or register to continue
-        </Typography>
+        {/* <Typography variant="body1" paragraph>
+          Please log in or register
+        </Typography> */}
         <ButtonGroup variant="contained" size="large">
           <Button
             onClick={handleLogin}
@@ -64,7 +64,6 @@ export const Home = () => {
             Register
           </Button>
           <Button
-            onClick={handleRegister}
             sx={{
               backgroundColor: "#1976d2",
               "&:hover": { backgroundColor: "#115293" },
