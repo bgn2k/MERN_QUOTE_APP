@@ -25,7 +25,7 @@ const AboutMe = () => {
   const navigate = useNavigate();
 
   function routeToHome() {
-    navigate("/");
+    navigate(-1);
   }
 
   function calculateDuration() {
