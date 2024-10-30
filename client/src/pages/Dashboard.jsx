@@ -5,32 +5,31 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Quote from "./Quote";
 import quotesFile from "../../quotes.json";
+import Footer from "./Footer";
 
 export const Dashboard = () => {
   const [quoteArr, setQuoteArr] = useState([]);
-  const [loading, setLoading] = useState(true); // New loading state
-  const [error, setError] = useState(null); // Error state for API failure
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const location = useLocation();
-  const { userName } = location.state || {};
-  const { token } = location.state || {};
+  const { userName, token } = location.state || {};
   const navigate = useNavigate();
-  // Open menu when clicking the MenuIcon
+
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // Close the menu
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // Navigate to About Me page and close menu
   const handleAboutMeClick = () => {
-    navigate('/dashboard/about-me');  // Make sure you have this route set up
+    navigate('/dashboard/about-me');
     handleClose();
   };
+
   function handleSignOut() {
     navigate("/login");
   }
@@ -45,7 +44,7 @@ export const Dashboard = () => {
 
   async function populateQuote(token) {
     try {
-      const baseUrl = import.meta.env.VITE_BASEURL
+      const baseUrl = import.meta.env.VITE_BASEURL;
       const headers = { "access-token": token };
       const response = await axios.get(`${baseUrl}api/quote`, {
         headers: headers,
@@ -59,15 +58,12 @@ export const Dashboard = () => {
     } catch (error) {
       setError("Failed to fetch quotes. Please try again later.");
     } finally {
-      setLoading(false); // Stop loading once the API call finishes
+      setLoading(false);
     }
-  }
-  function routeToAboutMe(){
-    navigate('/dashboard/about-me')
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AppBar position="fixed">
         <Toolbar>
           <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleMenuClick}>
@@ -83,7 +79,7 @@ export const Dashboard = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Hello, {userName}!
           </Typography>
-          <Button variant="inherit" sx={{backgroundColor : 'yellow', color:'black'}} onClick={routeToAboutMe}>
+          <Button variant="inherit" sx={{ backgroundColor: 'yellow', color: 'black' }} onClick={handleAboutMeClick}>
             About Me!
           </Button>
           <Button color="inherit" onClick={handleSignOut}>
@@ -92,8 +88,8 @@ export const Dashboard = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Spacing below AppBar */}
-      <Box sx={{ mt: 8, p: 3 }}>
+      {/* Main Content Area */}
+      <Box sx={{ flexGrow: 1, mt: 8, p: 3 }}>
         {/* Loading state */}
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
@@ -107,6 +103,9 @@ export const Dashboard = () => {
           <Quote quoteArr={quoteArr} />
         )}
       </Box>
+      <Footer />
     </Box>
   );
 };
+
+export default Dashboard;

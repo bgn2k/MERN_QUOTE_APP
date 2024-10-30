@@ -17,6 +17,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -79,7 +80,9 @@ const AboutMe = () => {
               rel="noopener noreferrer"
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <GitHubIcon fontSize="medium" />
+              <Tooltip title="GitHub" arrow>
+                <GitHubIcon fontSize="medium" />
+              </Tooltip>
             </a>
             <a
               href="https://www.linkedin.com/in/b-govinda-narendra-89637a224/"
@@ -87,7 +90,9 @@ const AboutMe = () => {
               rel="noopener noreferrer"
               style={{ textDecoration: "none", color: "inherit" }}
             >
+              <Tooltip title="LinkedIn" arrow>
               <LinkedInIcon fontSize="medium" />
+              </Tooltip>
             </a>
             <a
               href="https://www.instagram.com/bgovindnaren/"
@@ -95,7 +100,9 @@ const AboutMe = () => {
               rel="noopener noreferrer"
               style={{ textDecoration: "none", color: "inherit" }}
             >
+              <Tooltip title="Instagram" arrow>
               <InstagramIcon fontSize="medium" />
+              </Tooltip>
             </a>
             <a
               href="https://www.youtube.com/@bgovindnaren"
@@ -103,7 +110,9 @@ const AboutMe = () => {
               rel="noopener noreferrer"
               style={{ textDecoration: "none", color: "inherit" }}
             >
+              <Tooltip title="YouTube" arrow>
               <YouTubeIcon fontSize="medium" />
+              </Tooltip>
             </a>
           </Box>
 
@@ -142,10 +151,13 @@ const AboutMe = () => {
                 Developed and optimized APIs with GraphQL, Node.js, CosmosDB,
                 Azure Service Bus, and Azure Functions.
                 <br />
-                Implemented a custom mocking method that enhances PR reviews,
-                enabling testing without live entity connections.
-                <br />
-                Led the team to deliver high-quality, performant applications.
+                Implemented a common custom mocking method that enhances
+                PR&apos;s code coverage, enabling testing without live entity
+                connections. And thus reducing stress on the acutal server
+                everytime test scripts are ran.
+                <br />I led my team in building applications that were both
+                powerful and easy to use, combining clean design with complex
+                functionality to ensure they were user-friendly and efficient.
               </Typography>
             </Grid>
 
@@ -160,7 +172,7 @@ const AboutMe = () => {
               </Typography>
               <List sx={{ pl: 2 }}>
                 <ListItem disableGutters>
-                  <ListItemText primary="JavaScript, HTML, CSS, JAVA" />
+                  <ListItemText primary="JavaScript, HTML, CSS, JAVA, Typescript" />
                 </ListItem>
                 <ListItem disableGutters>
                   <ListItemText primary="ReactJS, NodeJS, Express, GraphQL, Azure Service Bus, Azure Functions, SpringBoot" />
@@ -187,12 +199,12 @@ const AboutMe = () => {
                 Other Interests
               </Typography>
               <Typography variant="body1" color="textPrimary">
-                I love creating videos for YouTube and enjoy the entire process:
+                I love creating YouTube videos and I enjoy the entire process of
                 scripting, planning, editing, and refining.
                 <br />
                 Additionally, I&apos;m a self-taught guitarist and violinist,
                 constantly learning and enjoying the journey to hit the right
-                notes.
+                notes 😅.
               </Typography>
             </Grid>
           </Grid>
