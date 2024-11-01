@@ -153,8 +153,8 @@ const AboutMe = () => {
                 <br />
                 Implemented a common custom mocking method that enhances
                 PR&apos;s code coverage, enabling testing without live entity
-                connections. And thus reducing stress on the acutal server
-                everytime test scripts are ran.
+                connections. And thus reducing stress on the actual server
+                everytime test scripts are triggered.
                 <br />I led my team in building applications that were both
                 powerful and easy to use, combining clean design with complex
                 functionality to ensure they were user-friendly and efficient.
