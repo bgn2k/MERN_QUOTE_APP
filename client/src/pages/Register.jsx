@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Box, Typography, TextField, Button, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { VerifyEmail } from "./verifyEmail";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -19,7 +20,18 @@ export const Register = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       const data = response.data;
-      navigate('/login');
+      if(data.status === 'ok'){
+        const otpResponse = await axios.post(`${baseUrl}api/verify-email` ,{email : email})
+        if(otpResponse?.data?.status === 'Success'){
+          navigate('/verify-email', {state : otpResponse?.data});
+        }
+      }else{
+        alert(`Error: ${data.error}`)
+        setEmail('')
+        setName('')
+        setPassword('')
+        navigate('/register')
+      }
     } catch (error) {
       alert("Registration failed. Please try again.");
     }

@@ -1,5 +1,4 @@
 const dotenv = require('dotenv');
-
 // Load environment variables from the .env file
 dotenv.config();
 const express = require("express");
@@ -9,6 +8,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/User");
 const jwt = require("jsonwebtoken");
+const sendOTPToUser = require('./sendMail')
 app.use(cors());
 app.use(express.json());
 const axios = require("axios");
@@ -35,6 +35,20 @@ app.post("/api/register", async (req, res) => {
     res.json({ status: "error", error: "Duplicate User Error" });
   }
 });
+/**
+ * Route to do email verfication
+ */
+app.post('/api/verify-email', async (req, res) => {
+try {
+  console.log('===============')
+  console.log('API TRIGGERED')
+  console.log('===============')
+  const verifyEmail = await sendOTPToUser(req.body.email)
+  res.json({status : verifyEmail.status, otp : verifyEmail.otp, reason : verifyEmail.reason})
+} catch (error) {
+  return res.json({status : 'Failed', message : error.message})
+}
+})
 /**
  * Route to login a given user
  */
