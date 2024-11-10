@@ -5,12 +5,12 @@ dotenv.config();
 function getRandomFiveDigitNumber() {
   return Math.floor(10000 + Math.random() * 90000);
 }
-console.log('USER ID :', process.env.USER_MAIL_ID)
-console.log('APP_PSWD: ', process.env.APP_PSWD)
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
-  port: 465, // Changed to secure port
+  //This set to 465 and make secure to true. This resovled the missing credentials for plain error.
+  //Even though app pswd if that has spaces in them vercel will make it work no issues there.
+  port: 465, // Changed to secure port 
   secure: true, // Use true for secure connection
   auth: {
     user: process.env.USER_MAIL_ID || '',
