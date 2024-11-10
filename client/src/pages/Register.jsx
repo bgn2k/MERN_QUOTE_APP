@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Box, Typography, TextField, Button, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { VerifyEmail } from "./verifyEmail";
+import { VerifyEmail } from "./VerifyEmail";
 
 export const Register = () => {
   const [name, setName] = useState("");
