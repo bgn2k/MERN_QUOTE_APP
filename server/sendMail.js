@@ -1,56 +1,55 @@
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
-// Load environment variables from the .env file
 dotenv.config();
+
 function getRandomFiveDigitNumber() {
   return Math.floor(10000 + Math.random() * 90000);
 }
+console.log('USER ID :', process.env.USER_MAIL_ID)
+console.log('APP_PSWD: ', process.env.APP_PSWD)
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // true for port 465, false for other ports
+  port: 465, // Changed to secure port
+  secure: true, // Use true for secure connection
   auth: {
-    user: process.env.USER_MAIL_ID,
-    pass: process.env.APP_PSWD,
+    user: process.env.USER_MAIL_ID || '',
+    pass: process.env.APP_PSWD || '',
   },
 });
 
 const sendMail = async (transporter, email) => {
   try {
-    const otp = getRandomFiveDigitNumber()
+    const otp = getRandomFiveDigitNumber();
     const mailOptions = {
       from: {
         name: "Morning Codes",
         address: process.env.USER_MAIL_ID,
-      }, // sender address
-      to: email, // list of receivers
-      subject: "GoodThoughts OTP", // Subject line
-      text: `OTP for email verfication : ${otp}. Please do not share your OTP with anynone`, // plain text body
-      html: `Your OTP for email verfication : <b>${otp}.<br>Please do not share your OTP with others.<br><br>Thanks!`, // html body
-      // attachments: {
-      //   filename: "CV_Nov2024_V3.pdf",
-      //   path: path.join(__dirname,"assets", "CV_Nov2024_V3.pdf"),
-      // },
+      },
+      to: email,
+      subject: "GoodThoughts OTP",
+      text: `OTP for email verification: ${otp}. Please do not share your OTP with anyone.`,
+      html: `<b>Your OTP for email verification: ${otp}.<br>Please do not share your OTP with others.<br><br>Thanks!</b>`,
     };
+
     await transporter.sendMail(mailOptions);
-    console.log('Email has been sent successfully!')
+    console.log('Email has been sent successfully!');
     return {
-      status : 'Success',
-      otp : otp,
-      reason : 'Email sent successfully'
-    }
+      status: 'Success',
+      otp: otp,
+      reason: 'Email sent successfully',
+    };
   } catch (error) {
-    console.log("Error : ", error);
+    console.error("Error sending email:", error);
     return {
-      status : 'Failed',
-      reason : error.message
-    }
+      status: 'Failed',
+      reason: error.message,
+    };
   }
 };
 
-// await sendMail(transporter, mailOptions);
 const sendOTPToUser = async (email) => {
   return sendMail(transporter, email);  
-}
+};
+
 module.exports = sendOTPToUser;
