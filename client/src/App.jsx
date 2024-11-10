@@ -5,7 +5,7 @@ import { Register } from "./pages/Register";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard";
 import AboutMe from "./pages/AboutMe";
-import { VerifyEmail } from "./pages/verifyEmail";
+import { VerifyEmail } from "./pages/VerifyEmail.jsx";
 function App() {
   return (
     <>
