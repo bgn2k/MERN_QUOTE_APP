@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Collapse,
   Paper,
   TextField,
@@ -14,6 +15,7 @@ export const VerifyEmail = () => {
   const [otpFromUser, setOtpFromUser] = useState("");
   const [verificationStatus, setVerificationStatus] = useState(null); // State to track verification status
   const [open, setOpen] = useState(false); // State to manage collapse animation
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { otp } = location.state;
@@ -23,6 +25,7 @@ export const VerifyEmail = () => {
     const isValid = await bcrypt.compare(otpFromUser, otp);
     if (isValid) {
       setVerificationStatus("success"); // Set success status if OTP is correct
+      setLoading(true);
       setOpen(true); // Show success message with animation
       console.log("Email Verification Successful");
 
@@ -45,56 +48,76 @@ export const VerifyEmail = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundImage: `url('https://source.unsplash.com/1600x900/?register')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <Paper
-          elevation={6}
-          sx={{
-            padding: "40px",
-            borderRadius: "15px",
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
-            maxWidth: "400px",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="h6" align="center" color="primary"gutterBottom>
-            An OTP is being sent to your email address. <br />
-            Please enter the same.
-          </Typography>
-
-          {/* Collapse transition for Alert */}
-          <Collapse in={open}>
-            {verificationStatus === "success" && (
-              <Alert severity="success" sx={{ marginBottom: 2 }}>
-                OTP Verified Successfully! Redirecting to Login...
-              </Alert>
-            )}
-            {verificationStatus === "error" && (
-              <Alert severity="error" sx={{ marginBottom: 2 }}>
-                Invalid OTP! Please try again.
-              </Alert>
-            )}
-          </Collapse>
-            <Box display={"flex"} flexDirection={'column'} rowGap={'1rem'}>
-            <TextField
-            fullWidth
-            label="OTP"
-            type="password"
-            variant="filled"
-            value={otpFromUser}
-            onChange={(e) => setOtpFromUser(e.target.value)}
-          />
-          <Button variant="contained" onClick={handleVerifyEmail}            fullWidth
-            sx={{ padding: "10px 0", fontSize: "16px" }}>
-            Verify Email
-          </Button>
+        {loading ? (
+          <>
+            {/* Collapse transition for Alert */}
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              sx={{ justifyContent: "center", alignItems: "center" }}
+            >
+              <CircularProgress />
             </Box>
+          </>
+        ) : (
+          <Paper
+            elevation={6}
+            sx={{
+              padding: "40px",
+              borderRadius: "15px",
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              maxWidth: "400px",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            <Typography
+              variant="h6"
+              align="center"
+              color="primary"
+              gutterBottom
+            >
+              An OTP is being sent to your email address. <br />
+              Please enter the same.
+            </Typography>
 
-        </Paper>
+            {/* Collapse transition for Alert */}
+            <Collapse in={open}>
+              {verificationStatus === "success" && (
+                <Alert severity="success" sx={{ marginBottom: 2 }}>
+                  OTP Verified Successfully! Redirecting to Login...
+                </Alert>
+              )}
+              {verificationStatus === "error" && (
+                <Alert severity="error" sx={{ marginBottom: 2 }}>
+                  Invalid OTP! Please try again.
+                </Alert>
+              )}
+            </Collapse>
+            <Box display={"flex"} flexDirection={"column"} rowGap={"1rem"}>
+              <TextField
+                fullWidth
+                label="OTP"
+                type="password"
+                variant="filled"
+                value={otpFromUser}
+                onChange={(e) => setOtpFromUser(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                onClick={handleVerifyEmail}
+                fullWidth
+                sx={{ padding: "10px 0", fontSize: "16px" }}
+              >
+                Verify Email
+              </Button>
+            </Box>
+          </Paper>
+        )}
       </Box>
     </>
   );
