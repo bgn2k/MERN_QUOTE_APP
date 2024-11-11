@@ -32,7 +32,7 @@ app.post("/api/register", async (req, res) => {
     });
     res.json({ status: "ok", message: "User successfully registered" });
   } catch (error) {
-    res.json({ status: "error", error: "Duplicate User Error" });
+    res.json({ status: "error", error: error.message });
   }
 });
 /**
@@ -40,11 +40,9 @@ app.post("/api/register", async (req, res) => {
  */
 app.post('/api/verify-email', async (req, res) => {
 try {
-  console.log('===============')
-  console.log('API TRIGGERED')
-  console.log('===============')
   const verifyEmail = await sendOTPToUser(req.body.email)
-  res.json({status : verifyEmail.status, otp : verifyEmail.otp, reason : verifyEmail.reason})
+  const hashedOtp = await bcrypt.hash(verifyEmail.otp.toString(), 12)
+  res.json({status : verifyEmail.status, otp : hashedOtp, reason : verifyEmail.reason})
 } catch (error) {
   return res.json({status : 'Failed', message : error.message})
 }
