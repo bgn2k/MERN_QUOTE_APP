@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, CircularProgress, Box, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Button, CircularProgress, Box, AppBar, Toolbar, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Quote from "./Quote";
@@ -11,19 +10,10 @@ export const Dashboard = () => {
   const [quoteArr, setQuoteArr] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
 
   const location = useLocation();
   const { userName, token } = location.state || {};
   const navigate = useNavigate();
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleAboutMeClick = () => {
     navigate('/dashboard/about-me');
@@ -66,16 +56,6 @@ export const Dashboard = () => {
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={handleMenuClick}>
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleAboutMeClick}>About Me</MenuItem>
-          </Menu>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Hello, {userName}!
           </Typography>

@@ -28,7 +28,7 @@ export const Register = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       const data = response.data;
-      if (data.status === "error") {
+      if (data.status === "ok") {
         const otpResponse = await axios.post(`${baseUrl}api/verify-email`, {
           email: email,
         });
