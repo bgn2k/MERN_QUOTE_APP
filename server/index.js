@@ -19,6 +19,16 @@ try {
   console.log("Failed To Connect Mongo DB");
 }
 /**
+ * Test Route:
+ */
+app.get('/test', async (req, res) => {
+  try{
+    res.json({serverStatus : "OK", message : "Hi User"})
+  }catch(error){
+    res.json({message : `Cannot display test route: ${error.message}` })
+  }
+})
+/**
  * Route to register user
  */
 app.post("/api/register", async (req, res) => {
