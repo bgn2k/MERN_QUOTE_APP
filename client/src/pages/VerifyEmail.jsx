@@ -18,7 +18,7 @@ export const VerifyEmail = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { otp } = location.state;
+  const { name, token, otp } = location.state;
 
   // Handle OTP verification
   async function handleVerifyEmail() {
@@ -31,7 +31,10 @@ export const VerifyEmail = () => {
 
       // After success, navigate to login after 3 seconds
       setTimeout(() => {
-        navigate("/login"); // Redirect to login page
+        navigate("/dashboard", {
+          state: { userName: name, token: token },
+        });
+        // navigate("/login"); // Redirect to dashboard page
       }, 3000); // Wait for 3 seconds before navigating
     } else {
       setVerificationStatus("error"); // Set error status if OTP is incorrect
