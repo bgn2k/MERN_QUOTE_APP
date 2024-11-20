@@ -27,13 +27,15 @@ export const Register = () => {
         { name, email, password },
         { headers: { "Content-Type": "application/json" } }
       );
-      const data = response.data;
+      let data = response.data;
       if (data.status === "ok") {
         const otpResponse = await axios.post(`${baseUrl}api/verify-email`, {
           email: email,
         });
         if (otpResponse?.data?.status === "Success") {
-          navigate("/verify-email", { state: otpResponse?.data });
+          //TODO : make isVerified to true in mongodb make call for that from here.
+          data.otp = otpResponse.data.otp
+          navigate("/verify-email", { state: data });
         }
       } else {
         alert(`Error: ${data.error}`);

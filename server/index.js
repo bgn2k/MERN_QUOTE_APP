@@ -19,18 +19,29 @@ try {
   console.log("Failed To Connect Mongo DB");
 }
 /**
+ * Test Route
+ */
+app.get('/test', async (req, res) => {
+  try {
+    res.json({serverStatus : 'OK'})
+  } catch (error) {
+    res.json({status : 'Failed', error : error.message})
+  }
+})
+/**
  * Route to register user
  */
 app.post("/api/register", async (req, res) => {
   try {
     const pswd = req.body.password
     const hashedPassword = await bcrypt.hash(pswd, 12)
+    const token = jwt.sign({ name: req.body.name, email: req.body.email }, process.env.TOKEN_SECRET);
     await User.create({
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
     });
-    res.json({ status: "ok", message: "User successfully registered" });
+    res.json({ status: "ok", message: "User successfully registered",name : req.body.name,token: token, });
   } catch (error) {
     res.json({ status: "error", error: error.message });
   }
@@ -59,7 +70,7 @@ app.post("/api/login", async (req, res) => {
     isValid = await bcrypt.compare(req.body.password, user.password)
   }
   if (user && isValid) {
-    const token = jwt.sign({ name: user.name, email: user.email }, "secret123");
+    const token = jwt.sign({ name: user.name, email: user.email }, process.env.TOKEN_SECRET);
     res.json({
       status: "ok",
       name: user.name,
@@ -77,7 +88,7 @@ app.get("/api/quote", async (req, res) => {
   const token = req.headers["access-token"];
 
   try {
-    const decodedToken = jwt.verify(token, "secret123");
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
     const email = decodedToken.email;
     const user = await User.findOne({ email: email });
     if (user) {
