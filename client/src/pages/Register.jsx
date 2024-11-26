@@ -38,14 +38,20 @@ export const Register = () => {
           navigate("/verify-email", { state: data });
         }
       } else {
-        alert(`Error: ${data.error}`);
+        alert(`Error: Something went wrong try again`);
         setEmail("");
         setName("");
         setPassword("");
+        setLoading(false)
         navigate("/register");
       }
     } catch (error) {
       alert("Registration failed. Please try again.");
+      setEmail("");
+      setName("");
+      setPassword("");
+      setLoading(false)
+      navigate("/register");
     }
   }
 

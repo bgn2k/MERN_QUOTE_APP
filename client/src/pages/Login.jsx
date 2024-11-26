@@ -39,10 +39,14 @@ export const Login = () => {
         alert("Login Failed: Invalid Credentials");
         setEmail("");
         setPassword("");
+        setLoading(false)
       }
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed: Please check your credentials and try again.");
+      setEmail("");
+      setPassword("");
+      setLoading(false)
     }
   }
 
