@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
-import axios from 'axios'
+import axios from "axios";
 export const VerifyEmail = () => {
   const [otpFromUser, setOtpFromUser] = useState("");
   const [verificationStatus, setVerificationStatus] = useState(null); // State to track verification status
@@ -23,18 +23,19 @@ export const VerifyEmail = () => {
 
   // Handle OTP verification
   async function handleVerifyEmail() {
-    
     setLoading(true);
     const isValid = await bcrypt.compare(otpFromUser, otp);
     if (isValid) {
       setVerificationStatus("success"); // Set success status if OTP is correct
-      
+
       setOpen(true); // Show success message with animation
-      await updateUserVerificationStatus(email)
-      console.log("Email Verification Successful");
+      const isUserVerified = await updateUserVerificationStatus(email);
+      if (isUserVerified === "ok") {
+        console.log("Email Verification Successful");
         navigate("/dashboard", {
           state: { userName: name, token: token },
         });
+      }
     } else {
       setVerificationStatus("error"); // Set error status if OTP is incorrect
       setOpen(true); // Show error message with animation
@@ -42,9 +43,13 @@ export const VerifyEmail = () => {
     }
   }
   async function updateUserVerificationStatus(email) {
-    const baseUrl = import.meta.env.VITE_BASEURL
-    const apiUrl = `${baseUrl}api/verify-user`
-    await axios.patch(apiUrl,{email :email  ,isVerified : true} )
+    const baseUrl = import.meta.env.VITE_BASEURL;
+    const apiUrl = `${baseUrl}api/verify-user`;
+    const response = await axios.patch(apiUrl, {
+      email: email,
+      isVerified: true,
+    });
+    return response.data.status;
   }
 
   return (

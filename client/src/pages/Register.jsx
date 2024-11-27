@@ -20,7 +20,7 @@ export const Register = () => {
   async function registerUser(e) {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       const baseUrl = import.meta.env.VITE_BASEURL;
       const response = await axios.post(
         `${baseUrl}api/register`,
@@ -28,14 +28,15 @@ export const Register = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       let data = response.data;
-      data.email = email
-      if (data.status === "error") {
+      data.email = email;
+      //Be sure to change this to ok when testing is done.
+      if (data.status === "ok") {
         const otpResponse = await axios.post(`${baseUrl}api/verify-email`, {
           email: email,
         });
         if (otpResponse?.data?.status === "Success") {
           //TODO : make isVerified to true in mongodb make call for that from here.
-          data.otp = otpResponse.data.otp
+          data.otp = otpResponse.data.otp;
           navigate("/verify-email", { state: data });
         }
       } else {
@@ -43,7 +44,7 @@ export const Register = () => {
         setEmail("");
         setName("");
         setPassword("");
-        setLoading(false)
+        setLoading(false);
         navigate("/register");
       }
     } catch (error) {
@@ -51,7 +52,7 @@ export const Register = () => {
       setEmail("");
       setName("");
       setPassword("");
-      setLoading(false)
+      setLoading(false);
       navigate("/register");
     }
   }
