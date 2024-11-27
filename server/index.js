@@ -59,6 +59,22 @@ try {
 }
 })
 /**
+ * Route to update the user verification's status in database
+ */
+app.patch('/api/verify-user', async (req, res) => {
+const {email, isVerified} = req.body
+
+  if(isVerified){
+    const user = await User.findOne({email})
+    if(user){
+      await User.findOneAndUpdate({email},{isVerified : isVerified})
+      return res.json({status : 'ok', message : 'Verification status updated successfully'})
+    }else{
+      return res.json({status  : 'failed', message : 'Cannot update the verification status'})
+    }
+  }
+})
+/**
  * Route to login a given user
  */
 app.post("/api/login", async (req, res) => {

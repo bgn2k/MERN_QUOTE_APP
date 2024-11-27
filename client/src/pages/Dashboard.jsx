@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, CircularProgress, Box, AppBar, Toolbar, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Quote from "./Quote";
@@ -15,10 +22,10 @@ export const Dashboard = () => {
   const { userName, token } = location.state || {};
   const navigate = useNavigate();
 
-  const handleAboutMeClick = () => {
-    navigate('/dashboard/about-me');
-    handleClose();
-  };
+  // const handleAboutMeClick = () => {
+  //   navigate('/dashboard/about-me');
+  //   handleClose();
+  // };
 
   function handleSignOut() {
     navigate("/login");
@@ -59,9 +66,9 @@ export const Dashboard = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Hello, {userName}!
           </Typography>
-          <Button variant="inherit" sx={{ backgroundColor: 'yellow', color: 'black' }} onClick={handleAboutMeClick}>
-            About Me!
-          </Button>
+          {/* <Button variant="inherit" onClick={handleAboutMeClick}>
+            Dev Profile!
+          </Button> */}
           <Button color="inherit" onClick={handleSignOut}>
             Sign Out
           </Button>
@@ -72,7 +79,14 @@ export const Dashboard = () => {
       <Box sx={{ flexGrow: 1, mt: 8, p: 3 }}>
         {/* Loading state */}
         {loading ? (
-          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
+            }}
+          >
             <CircularProgress />
           </Box>
         ) : error ? (

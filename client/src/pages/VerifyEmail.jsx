@@ -11,6 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import bcrypt from "bcryptjs";
+import axios from "axios";
 export const VerifyEmail = () => {
   const [otpFromUser, setOtpFromUser] = useState("");
   const [verificationStatus, setVerificationStatus] = useState(null); // State to track verification status
@@ -18,29 +19,37 @@ export const VerifyEmail = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { name, token, otp } = location.state;
+  const { name, token, otp, email } = location.state;
 
   // Handle OTP verification
   async function handleVerifyEmail() {
+    setLoading(true);
     const isValid = await bcrypt.compare(otpFromUser, otp);
     if (isValid) {
       setVerificationStatus("success"); // Set success status if OTP is correct
-      setLoading(true);
-      setOpen(true); // Show success message with animation
-      console.log("Email Verification Successful");
 
-      // After success, navigate to login after 3 seconds
-      setTimeout(() => {
+      setOpen(true); // Show success message with animation
+      const isUserVerified = await updateUserVerificationStatus(email);
+      if (isUserVerified === "ok") {
+        console.log("Email Verification Successful");
         navigate("/dashboard", {
           state: { userName: name, token: token },
         });
-        // navigate("/login"); // Redirect to dashboard page
-      }, 3000); // Wait for 3 seconds before navigating
+      }
     } else {
       setVerificationStatus("error"); // Set error status if OTP is incorrect
       setOpen(true); // Show error message with animation
       console.log("Invalid OTP");
     }
+  }
+  async function updateUserVerificationStatus(email) {
+    const baseUrl = import.meta.env.VITE_BASEURL;
+    const apiUrl = `${baseUrl}api/verify-user`;
+    const response = await axios.patch(apiUrl, {
+      email: email,
+      isVerified: true,
+    });
+    return response.data.status;
   }
 
   return (
