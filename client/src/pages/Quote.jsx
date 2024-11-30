@@ -11,8 +11,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Quote = ({ quoteArr }) => {
+  const navigate = useNavigate()
   const [copiedIndex, setCopiedIndex] = useState(null); // Track which quote is copied
   function copyToClipboard(quote, index) {
     navigator.clipboard
@@ -150,6 +152,7 @@ const Quote = ({ quoteArr }) => {
 
                   <Chip
                     label="Save"
+                    onClick = {() => navigate('/my-collections')}
                     sx={{
                       fontSize: "16px",
                       bgcolor: "black",
