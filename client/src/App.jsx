@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard";
 import AboutMe from "./pages/AboutMe";
 import { VerifyEmail } from "./pages/VerifyEmail.jsx";
+import { QuoteCollection } from "./pages/QuoteCollection.jsx";
 function App() {
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/about-me" element={<AboutMe />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path = '/my-collections' element = {<QuoteCollection/>}/>
           <Route path="/dashboard/about-me" element={<AboutMe />} />
         </Routes>
       </Router>
