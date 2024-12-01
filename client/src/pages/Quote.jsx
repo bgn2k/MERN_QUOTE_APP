@@ -1,170 +1,172 @@
-import { Box, Card, CardContent, Typography, Pagination, Stack, Button, Grid, Snackbar, Alert } from "@mui/material";
-import CopyIcon from '@mui/icons-material/FileCopy'; // Importing Material Icon for Copy
 import React, { useState } from "react";
+import Divider from "@mui/material/Divider";
+import "@fontsource-variable/montserrat";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  Paper,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Quote = ({ quoteArr }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const quotesPerPage = 4; // Display 4 quotes per page
-  const [snackbarOpen, setSnackbarOpen] = useState(false); // Snackbar state
-
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(quoteArr.length / quotesPerPage);
-
-  // Calculate the current quotes to display
-  const indexOfLastQuote = currentPage * quotesPerPage;
-  const indexOfFirstQuote = indexOfLastQuote - quotesPerPage;
-  const currentQuotes = quoteArr.slice(indexOfFirstQuote, indexOfLastQuote);
-
-  // Change the page
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
-  };
-
-  // Function to copy quote to clipboard
-  const copyToClipboard = (quote) => {
-    navigator.clipboard.writeText(quote)
+  const navigate = useNavigate()
+  const [copiedIndex, setCopiedIndex] = useState(null); // Track which quote is copied
+  function copyToClipboard(quote, index) {
+    navigator.clipboard
+      .writeText(quote)
       .then(() => {
-        setSnackbarOpen(true); // Open snackbar on successful copy
+        setCopiedIndex(index); // Set the copied index
+        console.log("Successfully Copied Quote");
+
+        // Reset after 3 seconds
+        setTimeout(() => {
+          setCopiedIndex(null);
+        }, 3000); // 3000ms = 3 seconds
       })
-      .catch(err => {
-        console.error('Failed to copy: ', err);
-      });
+      .catch((err) => console.log("Failed to copy quote : ", err));
+  }
+  const heroQuote = quoteArr[quoteArr.length - 1];
+  const author = (heroQuote) => {
+    return heroQuote?.a !== "Unknown" ? heroQuote.a : "Someone Wise";
   };
-
-  // Close snackbar
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
-
   return (
-    <Box
-      sx={{
-        marginTop: "5%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 3,
-        px: 2,
-      }}
-    >
-      <Grid container spacing={3}>
-        {currentQuotes.map((quote, index) => (
-          <Grid item xs={12} sm={6} key={index}>
-            <Card
-              sx={{
-                backgroundColor: "#ffffff",
-                boxShadow: "0px 6px 20px rgba(0, 0, 0, 0.1)",
-                borderRadius: "16px",
-                transition: "transform 0.3s, box-shadow 0.3s",
-                '&:hover': {
-                  transform: 'translateY(-5px)',
-                  boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.2)",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <Typography
-                  variant="h4"
-                  component="div"
-                  sx={{
-                    color: "#1976d2",
-                    fontWeight: "bold",
-                    mb: 1,
-                  }}
-                >
-                  “
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: "1.1rem",
-                    color: "#333",
-                    fontStyle: "italic",
-                    lineHeight: 1.5,
-                    mb: 2,
-                  }}
-                >
-                  {quote.q}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#555",
-                    textAlign: "right",
-                  }}
-                >
-                  - {quote.a}
-                </Typography>
-                <Typography
-                  variant="h4"
-                  component="div"
-                  sx={{
-                    color: "#1976d2",
-                    fontWeight: "bold",
-                    mt: 1,
-                  }}
-                >
-                  ”
-                </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<CopyIcon />}
-                  sx={{
-                    mt: 2,
-                    backgroundColor: "#1976d2",
-                    color: "#ffffff",
-                    '&:hover': {
-                      backgroundColor: "#1565c0",
-                    },
-                  }}
-                  onClick={() => copyToClipboard(quote.q)}
-                >
-                  Copy Quote
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Pagination Control */}
-      <Stack spacing={2} sx={{ mt: 3, width: '100%', alignItems: 'center' }}>
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-          variant="outlined"
-          shape="rounded"
-          sx={{
-            '& .MuiPaginationItem-root': {
-              borderRadius: '8px',
-              transition: 'background-color 0.2s, color 0.2s',
-            },
-            '& .MuiPaginationItem-root:hover': {
-              backgroundColor: '#e3f2fd', // Light blue on hover
-              color: '#1976d2', // Primary color
-            },
-          }}
-        />
-      </Stack>
-
-      {/* Snackbar for Copy Notification */}
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000} // Automatically hide after 3 seconds
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          p: 2,
+        }}
       >
-        <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
-          Quote copied to clipboard!
-        </Alert>
-      </Snackbar>
-    </Box>
+        {/* Upper Divider */}
+        <Divider sx={{ my: 2, width: "100%" }} />
+        {/* Quote Text */}
+        <Typography
+          variant="h2"
+          sx={{
+            textAlign: "center",
+            fontFamily: "Rubik, sans-serif",
+            fontWeight: 300,
+          }}
+        >
+          "{heroQuote.q}"
+        </Typography>
+        <br />
+        {/* Quote Author */}
+        <Typography
+          variant="h5"
+          sx={{
+            textAlign: "center",
+            color: "text.secondary",
+            fontFamily: "Rubik, sans-serif",
+            fontWeight: 300,
+          }}
+          className="poppins-medium"
+        >
+          - {author(heroQuote)}
+        </Typography>
+        {/* Lower Divider */}
+        <Divider sx={{ my: 2, width: "100%" }} />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          p: 2,
+        }}
+      >
+        <Box>
+          {quoteArr.map((item, index) => (
+            <Paper
+              elevation={16}
+              key={index}
+              sx={{ marginBottom: "2%", height: "auto" }}
+            >
+              <Card>
+                <CardContent>
+                  <Typography
+                    sx={{
+                      fontFamily: "Rubik, sans-serif",
+                      fontWeight: 400,
+                      fontSize: "28px",
+                    }}
+                  >
+                    {item.q}
+                  </Typography>
+                  <br />
+                  <Typography
+                    sx={{
+                      color: "text.secondary",
+                      fontSize: "20px",
+                      fontFamily: "Rubik, sans-serif",
+                      fontWeight: 400,
+                    }}
+                  >
+                    -{author(item)}
+                  </Typography>
+                </CardContent>
+                <Divider></Divider>
+                <CardActions>
+                  {copiedIndex === index ? (
+                    <Chip
+                      color="success"
+                      sx={{
+                        fontSize: "16px",
+                        color: "white",
+                      }}
+                      label="Copied"
+                    />
+                  ) : (
+                    <Tooltip
+                      // title={
+                      //   <Typography
+                      //     sx={{ fontSize: "0.8rem", fontWeight: "bold" }}
+                      //   >
+                      //     Copy
+                      //   </Typography>
+                      // }
+                      arrow
+                    >
+                      <Chip
+                        label="Copy"
+                        onClick={() => copyToClipboard(item.q, index)}
+                        sx={{
+                          bgcolor: "black",
+                          color: "white",
+                          cursor: "pointer",
+                          fontSize: "16px",
+                          ":hover": { bgcolor: "black", color: "white" },
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+
+                  <Chip
+                    label="Save"
+                    onClick = {() => navigate('/my-collections')}
+                    sx={{
+                      fontSize: "16px",
+                      bgcolor: "black",
+                      color: "white",
+                      cursor: "pointer",
+                    }}
+                  ></Chip>
+                </CardActions>
+              </Card>
+            </Paper>
+          ))}
+        </Box>
+      </Box>
+    </>
   );
 };
 
