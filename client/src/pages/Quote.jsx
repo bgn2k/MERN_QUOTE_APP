@@ -7,6 +7,7 @@ import {
   CardActions,
   CardContent,
   Chip,
+  Pagination,
   Paper,
   Tooltip,
   Typography,
@@ -14,7 +15,17 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Quote = ({ quoteArr }) => {
-  const navigate = useNavigate()
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = quoteArr.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const navigate = useNavigate();
   const [copiedIndex, setCopiedIndex] = useState(null); // Track which quote is copied
   function copyToClipboard(quote, index) {
     navigator.clipboard
@@ -84,8 +95,15 @@ const Quote = ({ quoteArr }) => {
           p: 2,
         }}
       >
-        <Box>
-          {quoteArr.map((item, index) => (
+        <Box
+          sx={{
+            width: "75%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          {currentData.map((item, index) => (
             <Paper
               elevation={16}
               key={index}
@@ -152,7 +170,7 @@ const Quote = ({ quoteArr }) => {
 
                   <Chip
                     label="Save"
-                    onClick = {() => navigate('/my-collections')}
+                    onClick={() => navigate("/my-collections")}
                     sx={{
                       fontSize: "16px",
                       bgcolor: "black",
@@ -164,6 +182,13 @@ const Quote = ({ quoteArr }) => {
               </Card>
             </Paper>
           ))}
+          <Pagination
+            count={quoteArr.length / itemsPerPage}
+            variant="outlined"
+            color="primary"
+            page={currentPage}
+            onChange={handlePageChange}
+          />
         </Box>
       </Box>
     </>
