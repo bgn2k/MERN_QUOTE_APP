@@ -182,13 +182,14 @@ const Quote = ({ quoteArr }) => {
               </Card>
             </Paper>
           ))}
+          <Box sx={{display : "flex", justifyContent : "center"}}>
           <Pagination
             count={quoteArr.length / itemsPerPage}
-            variant="outlined"
             color="primary"
             page={currentPage}
             onChange={handlePageChange}
           />
+          </Box>
         </Box>
       </Box>
     </>
