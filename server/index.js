@@ -120,6 +120,18 @@ app.get("/api/quote", async (req, res) => {
     res.json({ status: "error", message: "Invalid Token", error : error.message });
   }
 });
+app.post('/api/my-collection', async (req,res) => {
+  const {quote, email} = req.body
+  const user = await User.findOne({email})
+  if (!user) {
+    return res.status(404).json({ message: 'User not found so could not add quote to collection.' });
+  }
+  user.my_collection.push(...quote);
+
+  const result = await user.save()
+  return res.status(200).json({ message: 'Quote added successfully' });
+
+})
 app.listen(process.env.PORT, () => {
   console.log("Server started at 4000");
 });

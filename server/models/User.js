@@ -17,8 +17,12 @@ const userSchema = new mongoose.Schema({
         type : Boolean,
         default: false
     },
-    quote : {
-        type : String
+    my_collection : {
+        type : [{
+            q : String,
+            a : String
+        }],
+        default : []
     },
     dob : {
         type : String,
